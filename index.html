@@ -1,0 +1,1040 @@
+<html>
+
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- EMAILJS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function () {
+      emailjs.init("IvgfyGmj06WZ14GbR");
+    })();
+  </script>
+</head>
+
+<body>
+  <div class="modal-overlay hidden" id="bookModal">
+    <div class="modal-box">
+      <button class="m-close" onclick="closeModal()">✕</button>
+      <h3>Book a Slot</h3>
+      <div class="modal-sub" id="modalSub"><strong>April 24, 2026</strong> at <strong>11:00 AM</strong> · 1 hour session
+      </div>
+      <input type="text" id="bName" placeholder="Your Full Name *">
+      <input type="email" id="bEmail" placeholder="Email Address *">
+      <input type="tel" id="bPhone" placeholder="Phone / WhatsApp (optional)">
+      <select id="bCourse">
+        <option value="">Select Course...</option>
+        <option>Sanskrit Basics</option>
+        <option>Advanced Sanskrit</option>
+        <option>Shloka &amp; Scripture (Bhagavad Gita)</option>
+        <option>CBSE Tuition</option>
+        <option>State Syllabus Tuition</option>
+      </select>
+      <textarea id="bNote" placeholder="Any message for Prasanna? (optional)"></textarea>
+      <div class="modal-btns">
+        <button class="m-cancel" onclick="closeModal()">Cancel</button>
+        <button class="m-confirm" onclick="confirmBooking()">Confirm Booking</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="dash-overlay hidden" id="dashOverlay">
+    <div id="dashContent">
+      <div class="dash-panel">
+        <div class="dash-top">
+          <div>
+            <div class="dash-title">📋 Prasanna's Dashboard</div>
+            <div class="dash-sub">Manage seats, slots and student bookings — April 2026</div>
+          </div>
+          <button class="dash-close" onclick="closeDash()">Close ✕</button>
+        </div>
+        <div class="dash-body">
+          <div class="dash-stats">
+            <div class="ds-card">
+              <div class="ds-num" id="dsTotal">0</div>
+              <div class="ds-lbl">Total Bookings</div>
+            </div>
+            <div class="ds-card">
+              <div class="ds-num" id="dsNew">0</div>
+              <div class="ds-lbl">New Requests</div>
+            </div>
+            <div class="ds-card">
+              <div class="ds-num" id="dsConf">0</div>
+              <div class="ds-lbl">Confirmed</div>
+            </div>
+            <div class="ds-card">
+              <div class="ds-num" id="dsDays">0</div>
+              <div class="ds-lbl">Active Days</div>
+            </div>
+          </div>
+
+          <div class="seat-manager" id="ownerSeatManager">
+            <!-- Dynamic owner calendar injected here -->
+          </div>
+
+          <div class="dash-sec-hd">
+            Student Booking Requests
+            <span style="font-size:.72rem;color:var(--mut);font-weight:400">Most recent first</span>
+          </div>
+          <div class="booking-list" id="dashBookingList">
+            <div class="no-bookings">No bookings yet. They will appear here once students book slots.</div>
+          </div>
+
+          <div class="dash-action-row">
+            <button class="da-btn primary" onclick="markAllConfirmed()">Mark All Confirmed</button>
+            <button class="da-btn ghost" onclick="loggedIn=false;renderDash()">Sign Out</button>
+            <button class="da-btn danger" onclick="clearAll()">Clear All Bookings</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-brand">संस्कृत <span>Prasanna</span></div>
+    <ul class="nav-links">
+      <li><a href="#courses">Courses</a></li>
+      <li><a href="#fees">Fees</a></li>
+      <li><a href="#tutor">Tutor</a></li>
+      <li><a href="#schedule">Schedule</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="dashboard-btn" onclick="openDashboard()">Owner Dashboard</button>
+      <button class="nav-cta" onclick="document.getElementById('schedule').scrollIntoView({behavior:'smooth'})">Book a
+        Class</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-om">ॐ</div>
+    <div class="hero-content">
+      <div class="hero-tag">Live Digital Sanskrit Classes</div>
+      <div class="hero-deva">विद्या ददाति विनयम्</div>
+      <h1 class="hero-title">Learn <span>Sanskrit</span><br>From the Source</h1>
+      <p class="hero-sub">One-on-one live digital sessions with a qualified MA &amp; B.Ed. Sanskrit teacher — from
+        Devanagari basics to Bhagavad Gita shlokas. Students worldwide welcome.</p>
+      <div class="hero-btns">
+        <button class="btn-p" onclick="document.getElementById('schedule').scrollIntoView({behavior:'smooth'})">Book a
+          Trial Class</button>
+        <button class="btn-o" onclick="document.getElementById('courses').scrollIntoView({behavior:'smooth'})">Explore
+          Courses</button>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-n">5+</div>
+          <div class="stat-l">Years Teaching</div>
+        </div>
+        <div>
+          <div class="stat-n">9.0</div>
+          <div class="stat-l">Student Rating</div>
+        </div>
+        <div>
+          <div class="stat-n">100%</div>
+          <div class="stat-l">Digital Classes</div>
+        </div>
+        <div>
+          <div class="stat-n">KA TET</div>
+          <div class="stat-l">Certified</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO -->
+  <div class="video-section" id="about">
+    <div class="video-pane" id="videoPaneWrap">
+      <div class="video-overlay" id="vidOverlay" onclick="playVideo()">
+        <button class="play-btn"><svg viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"></path>
+          </svg></button>
+        <div class="vid-label">Watch Introduction</div>
+      </div>
+    </div>
+    <div class="vid-content">
+      <div class="sec-tag">About Us</div>
+      <h2 class="sec-title">Why Learn Sanskrit<br>with Prasanna?</h2>
+      <p class="sec-sub">Our mission is to build genuine Sanskrit understanding — real comprehension of India's
+        classical language, from grammar to sacred texts.</p>
+      <ul class="feat-list">
+        <li>MA (Acharya) &amp; B.Ed. in Sanskrit · Karnataka Samskrit University</li>
+        <li>Karnataka TET Cleared — state-certified educator (Sep 2023)</li>
+        <li>5+ years across CBSE &amp; State Syllabus schools in Bangalore</li>
+        <li>Flexible one-hour live sessions, globally accessible</li>
+        <li>Fluent: English, Kannada, Sanskrit, Telugu, Tamil</li>
+        <li>Drama &amp; performance pedagogy for active, engaging learning</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- COURSES -->
+  <section class="courses-sec" id="courses">
+    <div class="sec-tag">What We Teach</div>
+    <h2 class="sec-title">Our Courses</h2>
+    <p class="sec-sub">Structured pathways from beginner basics to advanced shloka study — covering CBSE, State
+      Syllabus, and independent learners globally.</p>
+    <div class="courses-grid">
+      <div class="course-card">
+        <div class="cc-bar"></div>
+        <div class="cc-body">
+          <div class="cc-level">Beginner</div>
+          <div class="cc-name">Sanskrit Basics</div>
+          <div class="cc-desc">A solid foundation in Devanagari script, pronunciation, grammar, and basic Sanskrit
+            communication.</div>
+          <ul class="cc-topics">
+            <li>Devanagari script &amp; phonetics</li>
+            <li>Basic vocabulary &amp; noun forms</li>
+            <li>Simple sentence construction</li>
+            <li>Introduction to Sandhi</li>
+          </ul>
+          <div class="cc-price">₹400–800 / class<small>CBSE: ₹500–800 · State: ₹400–700 · International:
+              $8–10/hr</small></div>
+          <button class="enroll-btn"
+            onclick="document.getElementById('schedule').scrollIntoView({behavior:'smooth'})">Enroll Now</button>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="cc-bar"></div>
+        <div class="cc-body">
+          <div class="cc-level">Intermediate – Advanced</div>
+          <div class="cc-name">Advanced Sanskrit</div>
+          <div class="cc-desc">Deep study of classical Sanskrit grammar, literature, and Vyakarana for higher studies
+            and competitive exams.</div>
+          <ul class="cc-topics">
+            <li>Ashtadhyayi grammar foundations</li>
+            <li>Sanskrit prose &amp; poetry (Kalidasa)</li>
+            <li>Dhatu (verbal roots) mastery</li>
+            <li>Translation &amp; composition</li>
+          </ul>
+          <div class="cc-price">₹400–800 / class<small>CBSE: ₹500–800 · State: ₹400–700 · International:
+              $8–10/hr</small></div>
+          <button class="enroll-btn"
+            onclick="document.getElementById('schedule').scrollIntoView({behavior:'smooth'})">Enroll Now</button>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="cc-bar" style="background:linear-gradient(90deg,#7c3aed,var(--gold))"></div>
+        <div class="cc-body">
+          <div class="cc-level" style="color:#7c3aed">Spiritual</div>
+          <div class="cc-name">Shloka &amp; Scripture</div>
+          <div class="cc-desc">Study sacred texts with correct recitation, meaning, and philosophical depth — Bhagavad
+            Gita, Vedic chants and more.</div>
+          <ul class="cc-topics">
+            <li>Bhagavad Gita — selected adhyayas</li>
+            <li>Vedic mantra recitation &amp; svara</li>
+            <li>Ramayana &amp; Mahabharata shlokas</li>
+            <li>Upanishadic introductions</li>
+          </ul>
+          <div class="cc-price">₹500 / hour (India)<small>International: $8–10 / hour</small></div>
+          <button class="enroll-btn" style="background:#7c3aed;border-color:#7c3aed"
+            onmouseover="this.style.background='#5b21b6';this.style.borderColor='#5b21b6'"
+            onmouseout="this.style.background='#7c3aed';this.style.borderColor='#7c3aed'"
+            onclick="document.getElementById('schedule').scrollIntoView({behavior:'smooth'})">Enroll Now</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEES -->
+  <section class="fees-sec" id="fees">
+    <div class="sec-tag" style="color:var(--gold)">Transparent Pricing</div>
+    <h2 class="sec-title">Fee Structure</h2>
+    <p class="sec-sub">Pay per class — no commitments, no hidden charges. Every session is one hour, live &amp;
+      interactive.</p>
+    <div class="fees-grid">
+      <div class="fee-card">
+        <div class="fee-flag">🇮🇳</div>
+        <div class="fee-lbl">India · General</div>
+        <div class="fee-amt">₹500</div>
+        <div class="fee-unit">per hour</div>
+        <div class="fee-note">Standard live session for Indian students</div>
+      </div>
+      <div class="fee-card">
+        <div class="fee-flag">📚</div>
+        <div class="fee-lbl">CBSE Syllabus</div>
+        <div class="fee-amt">₹500–800</div>
+        <div class="fee-unit">per class</div>
+        <div class="fee-note">Curriculum-aligned CBSE board classes</div>
+      </div>
+      <div class="fee-card">
+        <div class="fee-flag">🏫</div>
+        <div class="fee-lbl">State Syllabus</div>
+        <div class="fee-amt">₹400–700</div>
+        <div class="fee-unit">per class</div>
+        <div class="fee-note">State board curriculum-aligned classes</div>
+      </div>
+      <div class="fee-card">
+        <div class="fee-flag">🌍</div>
+        <div class="fee-lbl">International</div>
+        <div class="fee-amt">$8–10</div>
+        <div class="fee-unit">per hour</div>
+        <div class="fee-note">Flexible timing for students outside India</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TUTOR -->
+  <section class="tutor-sec" id="tutor">
+    <div class="sec-tag">Your Guru</div>
+    <h2 class="sec-title">Meet Your Tutor</h2>
+    <p class="sec-sub">A passionate Sanskrit educator with exceptional academic credentials and hands-on classroom
+      experience across Karnataka.</p>
+    <div class="tutor-card">
+      <div class="tutor-left">
+        <div class="tutor-photo" style="overflow: hidden; display: flex; align-items: center; justify-content: center;">
+          <!-- Replace 'tutor.jpg' with your photo's filename. Ensure the file is in the same folder as this index.html file -->
+          <img src="tutor.jpg" alt="Prasanna Hegde"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"
+            style="width: 100%; height: 100%; object-fit: cover;">
+          <div style="font-size:3rem;color:var(--gold); display: none;">प</div>
+        </div>
+        <div class="t-name">Prasanna Hegde</div>
+        <div class="t-title">MA · B.Ed · Sanskrit Educator</div>
+        <div class="rating-box">
+          <div class="r-num">9.0</div>
+          <div class="r-stars">★★★★★</div>
+          <div class="r-lbl">Student Rating</div>
+        </div>
+        <div class="t-btns">
+          <a class="t-btn call" href="tel:8073362748">📞 Call: 8073362748</a>
+          <a class="t-btn mail" href="mailto:harihiom02@gmail.com">✉ harihiom02@gmail.com</a>
+        </div>
+      </div>
+      <div class="tutor-right">
+        <h3>A Lifelong Scholar of Sanskrit</h3>
+        <p class="tutor-bio">Prasanna Hegde is a highly qualified Sanskrit educator from Uttara Kannada, Karnataka, with
+          over 5 years of active teaching experience. He has taught at Edify School (Kanakapur Road) and SSRVM Bangalore
+          South under the CBSE scheme, and at NMPT Panambur, Mangalore under the State Scheme. He holds the Karnataka
+          TET certification and is completing his M.Sc in Yoga-Shastra (July 2025). He has served as Head of Examination
+          Department, House Mentor, Drama Club In-charge, and won 1st prize at the National Level Drama Competition,
+          Agartala 2019.</p>
+        <div class="qual-grid">
+          <div class="qual-item">
+            <div class="q-deg">M.Sc Yoga-Shastra (2025)</div>
+            <div class="q-inst">Karnataka Samskrit University</div>
+            <div class="q-score">84.3%</div>
+          </div>
+          <div class="qual-item">
+            <div class="q-deg">M.A. Acharya (2022)</div>
+            <div class="q-inst">Rajeevgandhi Campus, Sringeri</div>
+            <div class="q-score">75.2%</div>
+          </div>
+          <div class="qual-item">
+            <div class="q-deg">B.Ed. Sanskrit (2021)</div>
+            <div class="q-inst">Rajiv Gandhi Campus, Sringeri</div>
+            <div class="q-score">83.5%</div>
+          </div>
+          <div class="qual-item">
+            <div class="q-deg">Karnataka TET Cleared</div>
+            <div class="q-inst">September 2023</div>
+            <div class="q-score">State Certified Teacher</div>
+          </div>
+        </div>
+        <div class="skill-chips">
+          <span class="chip">Sanskrit</span><span class="chip">Kannada</span><span class="chip">English</span><span
+            class="chip">Telugu</span><span class="chip">Tamil</span><span class="chip">Yoga-Shastra</span><span
+            class="chip">CBSE Expert</span><span class="chip">Drama &amp; Performance</span><span class="chip">5+ Yrs
+            Experience</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALENDAR -->
+  <section class="cal-sec" id="schedule">
+    <div class="sec-tag">Book a Session</div>
+    <h2 class="sec-title">Class Schedule</h2>
+    <p class="sec-sub">Select a date, pick an available time slot, and fill in your details. Prasanna will contact you
+      to confirm within 24 hours.</p>
+    <div class="cal-wrap" id="calRoot">
+      <div class="cal-header">
+        <div class="cal-month">April 2026</div>
+        <div style="display:flex;gap:.4rem">
+          <button class="cal-nav-btn" onclick="chMonth(-1)">‹</button>
+          <button class="cal-nav-btn" onclick="chMonth(1)">›</button>
+        </div>
+      </div>
+      <div class="cal-grid">
+        <div class="cal-dh">Sun</div>
+        <div class="cal-dh">Mon</div>
+        <div class="cal-dh">Tue</div>
+        <div class="cal-dh">Wed</div>
+        <div class="cal-dh">Thu</div>
+        <div class="cal-dh">Fri</div>
+        <div class="cal-dh">Sat</div>
+        <div class="cal-day empty"></div>
+        <div class="cal-day empty"></div>
+        <div class="cal-day empty"></div>
+        <div class="cal-day past" title="">1</div>
+        <div class="cal-day past" title="">2</div>
+        <div class="cal-day past" title="">3</div>
+        <div class="cal-day past" title="">4</div>
+        <div class="cal-day past" title="">5</div>
+        <div class="cal-day past" title="">6</div>
+        <div class="cal-day past" title="">7</div>
+        <div class="cal-day past" title="">8</div>
+        <div class="cal-day past" title="">9</div>
+        <div class="cal-day past" title="">10</div>
+        <div class="cal-day past" title="">11</div>
+        <div class="cal-day past" title="">12</div>
+        <div class="cal-day past" title="">13</div>
+        <div class="cal-day past" title="">14</div>
+        <div class="cal-day past" title="">15</div>
+        <div class="cal-day past" title="">16</div>
+        <div class="cal-day past" title="">17</div>
+        <div class="cal-day today has-slots" title="" onclick="selDay(18)">18</div>
+        <div class="cal-day" title="">19</div>
+        <div class="cal-day" title="">20</div>
+        <div class="cal-day has-slots" title="" onclick="selDay(21)">21</div>
+        <div class="cal-day has-slots" title="" onclick="selDay(22)">22</div>
+        <div class="cal-day has-slots" title="" onclick="selDay(23)">23</div>
+        <div class="cal-day has-slots" title="" onclick="selDay(24)">24</div>
+        <div class="cal-day has-slots" title="" onclick="selDay(25)">25</div>
+        <div class="cal-day" title="">26</div>
+        <div class="cal-day" title="">27</div>
+        <div class="cal-day has-slots" title="" onclick="selDay(28)">28</div>
+        <div class="cal-day has-slots" title="" onclick="selDay(29)">29</div>
+        <div class="cal-day has-slots" title="" onclick="selDay(30)">30</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-sec" id="contact">
+    <div class="sec-tag" style="color:var(--gold)">Reach Out</div>
+    <h2 class="sec-title">Get in Touch</h2>
+    <div class="contact-inner">
+      <div class="c-block">
+        <h4>Contact Details</h4>
+        <div class="c-item">
+          <div class="c-icon">📞</div>
+          <div><strong>Primary:</strong> 8073362748<br><strong>Alternate:</strong> 9482111881</div>
+        </div>
+        <div class="c-item">
+          <div class="c-icon">✉</div>
+          <div>harihiom02@gmail.com<br>pacchuh97@gmail.com</div>
+        </div>
+        <div class="c-item">
+          <div class="c-icon">📍</div>
+          <div>Honnekai, TQ – Siddapura<br>Dist – Uttara Kannada 581322<br><em
+              style="font-size:.74rem;opacity:.6">Digital classes · Available globally</em></div>
+        </div>
+      </div>
+      <div class="c-block">
+        <h4>Send a Message</h4>
+        <div class="c-form">
+          <input class="c-input" type="text" placeholder="Your Name">
+          <input class="c-input" type="email" placeholder="Email or Phone">
+          <select class="c-input" style="color:rgba(245,217,122,.9)">
+            <option style="background:#2C1E0A;color:#F5D97A">Interested in...</option>
+            <option style="background:#2C1E0A;color:#F5D97A">Sanskrit Basics</option>
+            <option style="background:#2C1E0A;color:#F5D97A">Advanced Sanskrit</option>
+            <option style="background:#2C1E0A;color:#F5D97A">Shloka &amp; Scripture</option>
+            <option style="background:#2C1E0A;color:#F5D97A">CBSE Tuition</option>
+            <option style="background:#2C1E0A;color:#F5D97A">State Syllabus Tuition</option>
+          </select>
+          <textarea class="c-input c-textarea" placeholder="Your message..."></textarea>
+          <button class="c-submit" onclick="sendContactMessage()">Send Message</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-brand">संस्कृत with Prasanna Hegde</div>
+    <div class="foot-text">© 2026 · Bringing the wisdom of Sanskrit to the digital age · Global Digital Classes</div>
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCi2TTvMG10Bw8evnJxNNciUm_QsUb0Gfk",
+      authDomain: "sanskrit-with-prasanna.firebaseapp.com",
+      projectId: "sanskrit-with-prasanna",
+      storageBucket: "sanskrit-with-prasanna.firebasestorage.app",
+      messagingSenderId: "560402078492",
+      appId: "1:560402078492:web:34491fad486478cf3078d9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const PASS = "prasanna2026";
+
+    // Firestore data sync functions
+    async function storeFirebase(docName, dataObj) {
+      try {
+        await setDoc(doc(db, "sanskrit_class", docName), dataObj);
+      } catch (e) {
+        console.error("Error saving to Firebase:", e);
+        alert("Database Error: Failed to save changes. Your Firebase rules might be blocking writes. See console for details.");
+      }
+    }
+
+    async function loadFirebase(docName, defaultData) {
+      try {
+        const docSnap = await getDoc(doc(db, "sanskrit_class", docName));
+        if (docSnap.exists()) {
+          return docSnap.data().value || defaultData;
+        }
+      } catch (e) {
+        console.error("Error loading from Firebase:", e);
+      }
+      return defaultData;
+    }
+
+    let bookings = [];
+    let ownerSlots = {};
+
+    let pendingSlot = null;
+    let selectedDay = null;
+    let currentDate = new Date(2026, 3, 1); // April 2026
+    let loggedIn = false;
+    let ownerSelectedDay = null;
+    let ownerCurrentDate = new Date(2026, 3, 1);
+
+    const courses = [
+      "Sanskrit Basics",
+      "Advanced Sanskrit",
+      "Shloka & Scripture",
+      "CBSE Tuition",
+      "State Syllabus Tuition"
+    ];
+
+    function getMonthName(m) { return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][m] }
+
+    function getBookedCount(day, month, year, slotId) {
+      return bookings.filter(b => b.day === day && b.month === month && b.year === year && b.slotId === slotId).length;
+    }
+
+    // --- STUDENT CALENDAR ---
+    function renderCalendar() {
+      const y = currentDate.getFullYear(), m = currentDate.getMonth();
+      const today = new Date(); today.setHours(0, 0, 0, 0);
+      const firstDay = new Date(y, m, 1).getDay();
+      const dim = new Date(y, m + 1, 0).getDate();
+      const mn = m + 1;
+
+      let h = `<div class="cal-header">
+        <div class="cal-month">${getMonthName(m)} ${y}</div>
+        <div style="display:flex;gap:.4rem">
+          <button class="cal-nav-btn" id="btnPrevMonth">‹</button>
+          <button class="cal-nav-btn" id="btnNextMonth">›</button>
+        </div>
+      </div>
+      <div class="cal-grid">`;
+      ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].forEach(d => h += `<div class="cal-dh">${d}</div>`);
+      for (let i = 0; i < firstDay; i++) h += `<div class="cal-day empty"></div>`;
+      for (let d = 1; d <= dim; d++) {
+        const td = new Date(y, m, d);
+        const isPast = td < today, isToday = td.getTime() === today.getTime();
+
+        const dateKey = `${y}-${mn}-${d}`;
+        const daySlots = ownerSlots[dateKey] || [];
+
+        let fullCount = 0;
+        daySlots.forEach(s => {
+          const booked = getBookedCount(d, mn, y, s.id);
+          if (booked >= s.seats) fullCount++;
+        });
+
+        const full = !isPast && daySlots.length > 0 && fullCount === daySlots.length;
+        const hasSl = !isPast && daySlots.length > 0 && !full;
+        const isSel = selectedDay === d;
+        const cls = ['cal-day', isPast ? 'past' : '', isToday ? 'today' : '', hasSl ? 'has-slots' : '', isSel && !isPast ? 'selected' : '', full ? 'full' : ''].filter(Boolean).join(' ');
+        h += `<div class="${cls}" data-day="${d}" title="${full ? 'All slots full' : ''}">${d}</div>`;
+      }
+      h += `</div>`;
+
+      if (selectedDay) {
+        const dateKey = `${y}-${mn}-${selectedDay}`;
+        const daySlots = ownerSlots[dateKey] || [];
+
+        h += `<div class="slots-panel">
+          <div class="slots-title">${getMonthName(m)} ${selectedDay}, ${y}</div>
+          <div class="slot-legend">
+            <div class="leg-item"><div class="leg-dot" style="background:#fff;border:2px solid var(--saf)"></div>Available</div>
+            <div class="leg-item"><div class="leg-dot" style="background:#e8e8e8;border:2px solid #ccc"></div>Full — no seats left</div>
+          </div>
+          <div class="slots-grid">`;
+        if (!daySlots.length) {
+          h += `<div style="color:var(--mut);font-size:.85rem">No slots scheduled for this day yet.</div>`;
+        } else {
+          daySlots.forEach(s => {
+            const booked = getBookedCount(selectedDay, mn, y, s.id);
+            const remaining = s.seats - booked;
+            const full = remaining <= 0;
+            if (full) {
+              h += `<button class="slot-btn full" disabled>
+                <div style="font-weight:700">${s.time}</div>
+                <div style="font-size:0.65rem; color:#888">${s.course}</div>
+                <span class="slot-seats" style="margin-top:4px">No seats left</span>
+              </button>`;
+            } else {
+              h += `<button class="slot-btn available" data-slotid="${s.id}" data-day="${selectedDay}">
+                <div style="font-weight:700">${s.time}</div>
+                <div style="font-size:0.65rem; color:var(--saf); opacity:0.8">${s.course}</div>
+                <span class="slot-seats" style="margin-top:4px">${remaining} seat${remaining !== 1 ? 's' : ''} left</span>
+              </button>`;
+            }
+          });
+        }
+        h += `</div><div class="slot-note">⏱ Each class is 1 hour · Seats shown are remaining availability · Prasanna will confirm via call or email</div></div>`;
+      }
+      document.getElementById('calRoot').innerHTML = h;
+
+      // Attach event listeners
+      document.getElementById('btnPrevMonth').onclick = () => chMonth(-1);
+      document.getElementById('btnNextMonth').onclick = () => chMonth(1);
+
+      document.querySelectorAll('#calRoot .cal-day:not(.past):not(.empty)').forEach(el => {
+        el.onclick = () => {
+          if (ownerSlots[`${y}-${mn}-${el.dataset.day}`] && ownerSlots[`${y}-${mn}-${el.dataset.day}`].length > 0) {
+            selDay(parseInt(el.dataset.day));
+          }
+        };
+      });
+
+      document.querySelectorAll('#calRoot .slot-btn.available').forEach(el => {
+        el.onclick = () => openModal(parseInt(el.dataset.day), el.dataset.slotid);
+      });
+    }
+
+    function chMonth(d) { currentDate.setMonth(currentDate.getMonth() + d); selectedDay = null; renderCalendar() }
+    function selDay(d) { selectedDay = selectedDay === d ? null : d; renderCalendar() }
+
+    function openModal(day, slotId) {
+      const m = currentDate.getMonth(), y = currentDate.getFullYear(), mn = m + 1;
+      const dateKey = `${y}-${mn}-${day}`;
+      const slot = ownerSlots[dateKey].find(s => s.id === slotId);
+
+      const booked = getBookedCount(day, mn, y, slotId);
+      if (booked >= slot.seats) { alert('Sorry, this slot is now fully booked.'); renderCalendar(); return }
+
+      pendingSlot = { day, slotTime: slot.time, slotId: slot.id, month: mn, year: y, monthName: getMonthName(m), course: slot.course };
+      document.getElementById('modalSub').innerHTML = `<strong>${getMonthName(m)} ${day}, ${y}</strong> at <strong>${slot.time}</strong><br><span style="color:var(--saf)">${slot.course}</span>`;
+      ['bName', 'bEmail', 'bPhone', 'bNote'].forEach(id => document.getElementById(id).value = '');
+
+      const bCourse = document.getElementById('bCourse');
+      bCourse.value = slot.course;
+      bCourse.disabled = true;
+
+      document.getElementById('bookModal').classList.remove('hidden');
+    }
+
+    // Attach to global window object so inline HTML handlers can find them
+    window.closeModal = function () { document.getElementById('bookModal').classList.add('hidden'); pendingSlot = null }
+    window.confirmBooking = async function () {
+      const name = document.getElementById('bName').value.trim();
+      const email = document.getElementById('bEmail').value.trim();
+      const phone = document.getElementById('bPhone').value.trim();
+
+      if (!name || !email) { alert('Please enter your name and email to proceed.'); return }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) { alert('Please enter a valid email address.'); return }
+
+      if (phone && !/^\+?[0-9\s\-]{7,15}$/.test(phone)) { alert('Please enter a valid phone number.'); return }
+
+      const { day, slotTime, slotId, month, year, monthName, course } = pendingSlot;
+
+      // Prevent double booking for the same course
+      const existingBooking = bookings.find(b => b.email.toLowerCase() === email.toLowerCase() && b.course === course);
+      if (existingBooking) {
+        alert(`You already have a booking for ${course}. Please complete your existing classes before booking again.`);
+        return;
+      }
+
+      const dateKey = `${year}-${month}-${day}`;
+      const slot = ownerSlots[dateKey].find(s => s.id === slotId);
+      const booked = getBookedCount(day, month, year, slotId);
+
+      if (booked >= slot.seats) { alert('Sorry, this slot just got filled. Please choose another.'); closeModal(); renderCalendar(); return }
+
+      const booking = {
+        id: Date.now(), name, email,
+        phone: document.getElementById('bPhone').value.trim(),
+        course: course,
+        note: document.getElementById('bNote').value.trim(),
+        day, slot: slotTime, slotId, month, year, monthName,
+        bookedOn: new Date().toLocaleDateString('en-IN'),
+        status: 'new'
+      };
+
+      // Update local and Firebase
+      bookings.push(booking);
+      await storeFirebase('sk_bookings', { value: bookings });
+
+      try {
+        await emailjs.send(
+          "service_fte8y5c",
+          "template_fhcmew2",
+          {
+            student_name: name,
+            student_email: email,
+            student_phone: phone || "Not provided",
+            course: course,
+            slot_date: `${monthName} ${day}, ${year}`,
+            slot_time: slotTime,
+            message: document.getElementById('bNote').value.trim()
+          }
+        );
+      } catch (err) {
+        console.error("EmailJS Error:", err);
+      }
+
+      closeModal();
+      renderCalendar();
+      if (loggedIn) renderDash();
+      alert(`✅ Booking requested!\n\n📅 ${monthName} ${day}, ${year} at ${slotTime}\n👤 ${name}\n📚 ${course}\n\nPrasanna will contact you at ${email} to confirm your class.`);
+    }
+
+    // --- VIDEO & CONTACT ---
+    window.playVideo = function () {
+      const pane = document.getElementById('videoPaneWrap');
+      document.getElementById('vidOverlay').style.display = 'none';
+      pane.innerHTML += `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/_7616QugTkA?autoplay=1&rel=0&modestbranding=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;"></iframe>`;
+    }
+
+    window.sendContactMessage = function () {
+      const name = document.querySelector('.c-form input[type="text"]').value.trim();
+      const email = document.querySelector('.c-form input[type="email"]').value.trim();
+      const interest = document.querySelector('.c-form select').value;
+      const msg = document.querySelector('.c-textarea').value.trim();
+
+      if (!name || !msg) { alert('Please enter your name and your message.'); return; }
+
+      const subject = encodeURIComponent(`Inquiry from ${name} regarding ${interest}`);
+      const body = encodeURIComponent(`Name: ${name}\nContact: ${email}\nInterested in: ${interest}\n\nMessage:\n${msg}`);
+
+      window.location.href = `mailto:harihiom02@gmail.com?subject=${subject}&body=${body}`;
+    }
+
+    // --- OWNER DASHBOARD ---
+    window.openDashboard = function () { document.getElementById('dashOverlay').classList.remove('hidden'); renderDash() }
+    window.closeDash = function () { document.getElementById('dashOverlay').classList.add('hidden') }
+
+    function renderDash() {
+      const dc = document.getElementById('dashContent');
+      if (!loggedIn) {
+        dc.innerHTML = `<div class="login-wrap"><div class="login-panel">
+          <div style="font-size:2.5rem;margin-bottom:.75rem">🔐</div>
+          <h3>Owner Dashboard</h3>
+          <p>Sign in to manage slots, seats and bookings</p>
+          <input type="password" id="dashPass" placeholder="Enter password">
+          <button class="login-btn" id="btnLogin">Sign In</button>
+          <div class="login-err" id="loginErr">Incorrect password. Try again.</div>
+          <button onclick="closeDash()" style="margin-top:1rem;background:none;border:none;color:var(--mut);cursor:pointer;font-size:.8rem;font-family:inherit">Cancel</button>
+        </div></div>`;
+
+        document.getElementById('dashPass').onkeydown = (e) => { if (e.key === 'Enter') window.tryLogin() };
+        document.getElementById('btnLogin').onclick = window.tryLogin;
+        return;
+      }
+
+      if (document.getElementById('dsTotal')) {
+        document.getElementById('dsTotal').innerText = bookings.length;
+        document.getElementById('dsNew').innerText = bookings.filter(b => b.status === 'new').length;
+        document.getElementById('dsConf').innerText = bookings.filter(b => b.status === 'confirmed').length;
+        document.getElementById('dsDays').innerText = Object.keys(ownerSlots).filter(k => ownerSlots[k].length > 0).length;
+
+        renderOwnerCalendar();
+        renderDashBookings();
+      } else {
+        const total = bookings.length;
+        const newB = bookings.filter(b => b.status === 'new').length;
+        const confirmed = bookings.filter(b => b.status === 'confirmed').length;
+        const activeDays = Object.keys(ownerSlots).filter(k => ownerSlots[k].length > 0).length;
+
+        dc.innerHTML = `<div class="dash-panel">
+          <div class="dash-top">
+            <div>
+              <div class="dash-title">📋 Prasanna's Dashboard</div>
+              <div class="dash-sub">Manage slots, courses, and student bookings</div>
+            </div>
+            <button class="dash-close" onclick="closeDash()">Close ✕</button>
+          </div>
+          <div class="dash-body">
+            <div class="dash-stats">
+              <div class="ds-card"><div class="ds-num" id="dsTotal">${total}</div><div class="ds-lbl">Total Bookings</div></div>
+              <div class="ds-card"><div class="ds-num" id="dsNew">${newB}</div><div class="ds-lbl">New Requests</div></div>
+              <div class="ds-card"><div class="ds-num" id="dsConf">${confirmed}</div><div class="ds-lbl">Confirmed</div></div>
+              <div class="ds-card"><div class="ds-num" id="dsDays">${activeDays}</div><div class="ds-lbl">Active Days</div></div>
+            </div>
+
+            <div class="seat-manager" id="ownerSeatManager"></div>
+
+            <div class="dash-sec-hd">
+              Student Booking Requests
+              <span style="font-size:.72rem;color:var(--mut);font-weight:400">Most recent first</span>
+            </div>
+            <div class="booking-list" id="dashBookingList"></div>
+
+            <div class="dash-action-row" style="margin-top: 2rem;">
+              <button class="da-btn primary" id="btnMarkAll">Mark All Confirmed</button>
+              <button class="da-btn ghost" id="btnSignOut">Sign Out</button>
+              <button class="da-btn danger" id="btnClearAll">Clear All Bookings</button>
+            </div>
+          </div>
+        </div>`;
+
+        document.getElementById('btnMarkAll').onclick = window.markAllConfirmed;
+        document.getElementById('btnSignOut').onclick = () => { loggedIn = false; renderDash(); };
+        document.getElementById('btnClearAll').onclick = window.clearAll;
+
+        renderOwnerCalendar();
+        renderDashBookings();
+      }
+    }
+
+    function renderOwnerCalendar() {
+      const container = document.getElementById('ownerSeatManager');
+      if (!container) return;
+
+      const y = ownerCurrentDate.getFullYear(), m = ownerCurrentDate.getMonth();
+      const firstDay = new Date(y, m, 1).getDay();
+      const dim = new Date(y, m + 1, 0).getDate();
+      const mn = m + 1;
+
+      // Get today's date for validation
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      let h = `
+        <div class="dash-sec-hd" style="margin-bottom:1.5rem">
+          <div>Manage Slots & Calendar</div>
+          <div style="display:flex;align-items:center;gap:1rem;">
+             <div class="cal-month" style="font-size:1.1rem">${getMonthName(m)} ${y}</div>
+             <div style="display:flex;gap:.4rem">
+                <button class="cal-nav-btn" id="btnOwnerPrev">‹</button>
+                <button class="cal-nav-btn" id="btnOwnerNext">›</button>
+             </div>
+          </div>
+        </div>
+        <div class="owner-split-view">
+          <div class="owner-cal-wrap">
+            <div class="cal-grid" style="grid-template-columns: repeat(7, 1fr);">
+      `;
+
+      ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].forEach(d => h += `<div class="cal-dh">${d}</div>`);
+      for (let i = 0; i < firstDay; i++) h += `<div class="cal-day empty"></div>`;
+
+      for (let d = 1; d <= dim; d++) {
+        const td = new Date(y, m, d);
+        const isPast = td < today;
+        const dateKey = `${y}-${mn}-${d}`;
+        const daySlots = ownerSlots[dateKey] || [];
+        const isSel = ownerSelectedDay === d;
+
+        const cls = ['cal-day', isPast ? 'past' : '', daySlots.length > 0 ? 'has-slots' : '', isSel && !isPast ? 'selected' : ''].filter(Boolean).join(' ');
+
+        h += `<div class="${cls}" data-day="${d}" ${isPast ? 'title="Cannot manage past dates"' : ''}>${d}</div>`;
+      }
+      h += `</div></div>`;
+
+      h += `<div class="owner-editor-wrap">`;
+      if (ownerSelectedDay) {
+        const dateKey = `${y}-${mn}-${ownerSelectedDay}`;
+        const daySlots = ownerSlots[dateKey] || [];
+
+        h += `<h4>${getMonthName(m)} ${ownerSelectedDay}, ${y}</h4>`;
+
+        if (daySlots.length === 0) {
+          h += `<div style="color:var(--mut); font-size:0.85rem; margin-bottom:1rem;">No slots scheduled.</div>`;
+        } else {
+          h += `<div class="owner-slots-list">`;
+          daySlots.forEach(s => {
+            const booked = getBookedCount(ownerSelectedDay, mn, y, s.id);
+            h += `
+              <div class="o-slot-card">
+                <div class="o-slot-head">
+                  <strong>${s.time}</strong>
+                  <button class="o-del-btn" data-datekey="${dateKey}" data-slotid="${s.id}">✕</button>
+                </div>
+                <div class="o-slot-course">${s.course}</div>
+                <div class="o-slot-seats">
+                  <span>Seats:</span>
+                  <input type="number" min="1" max="50" value="${s.seats}" data-datekey="${dateKey}" data-slotid="${s.id}" class="o-seats-input">
+                  <span style="font-size:0.7rem; color:var(--mut); margin-left:8px;">(${booked} booked)</span>
+                </div>
+              </div>
+            `;
+          });
+          h += `</div>`;
+        }
+
+        h += `
+          <div class="add-slot-form">
+             <h5>+ Add New Slot</h5>
+             <select id="newSlotTime">
+               <option value="" disabled selected>Select Time...</option>
+               <option value="6:00 AM">6:00 AM</option>
+               <option value="7:00 AM">7:00 AM</option>
+               <option value="8:00 AM">8:00 AM</option>
+               <option value="9:00 AM">9:00 AM</option>
+               <option value="10:00 AM">10:00 AM</option>
+               <option value="11:00 AM">11:00 AM</option>
+               <option value="12:00 PM">12:00 PM</option>
+               <option value="1:00 PM">1:00 PM</option>
+               <option value="2:00 PM">2:00 PM</option>
+               <option value="3:00 PM">3:00 PM</option>
+               <option value="4:00 PM">4:00 PM</option>
+               <option value="5:00 PM">5:00 PM</option>
+               <option value="6:00 PM">6:00 PM</option>
+               <option value="7:00 PM">7:00 PM</option>
+               <option value="8:00 PM">8:00 PM</option>
+             </select>
+             <select id="newSlotCourse">
+               <option value="" disabled selected>Select Course...</option>
+               ${courses.map(c => `<option value="${c}">${c}</option>`).join('')}
+             </select>
+             <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem;">
+               <label style="font-size:0.8rem; color:var(--mut);">Total Seats:</label>
+               <input type="number" id="newSlotSeats" value="20" min="1" max="50" style="width:70px">
+             </div>
+             <button class="da-btn primary" style="width:100%" id="btnAddSlot">Add Slot</button>
+          </div>
+        `;
+      } else {
+        h += `<div class="empty-editor">Select an upcoming day on the calendar to manage its slots.</div>`;
+      }
+
+      h += `</div></div>`;
+      container.innerHTML = h;
+
+      // Attach event listeners
+      document.getElementById('btnOwnerPrev').onclick = () => ownerChMonth(-1);
+      document.getElementById('btnOwnerNext').onclick = () => ownerChMonth(1);
+
+      document.querySelectorAll('#ownerSeatManager .cal-day:not(.past):not(.empty)').forEach(el => {
+        el.onclick = () => ownerSelDay(parseInt(el.dataset.day));
+      });
+
+      if (ownerSelectedDay) {
+        document.getElementById('btnAddSlot').onclick = addOwnerSlot;
+
+        document.querySelectorAll('.o-del-btn').forEach(el => {
+          el.onclick = () => deleteOwnerSlot(el.dataset.datekey, el.dataset.slotid);
+        });
+
+        document.querySelectorAll('.o-seats-input').forEach(el => {
+          el.onchange = (e) => updateOwnerSlotSeats(el.dataset.datekey, el.dataset.slotid, e.target.value);
+        });
+      }
+    }
+
+    function ownerChMonth(d) { ownerCurrentDate.setMonth(ownerCurrentDate.getMonth() + d); ownerSelectedDay = null; renderOwnerCalendar() }
+    function ownerSelDay(d) { ownerSelectedDay = d; renderOwnerCalendar() }
+
+    async function addOwnerSlot() {
+      const time = document.getElementById('newSlotTime').value.trim();
+      const course = document.getElementById('newSlotCourse').value;
+      const seats = parseInt(document.getElementById('newSlotSeats').value) || 20;
+
+      if (!time || !course) { alert("Please provide time and course."); return; }
+
+      const m = ownerCurrentDate.getMonth(), y = ownerCurrentDate.getFullYear(), mn = m + 1;
+      const dateKey = `${y}-${mn}-${ownerSelectedDay}`;
+
+      if (!ownerSlots[dateKey]) ownerSlots[dateKey] = [];
+      ownerSlots[dateKey].push({ id: 's_' + Date.now(), time, course, seats });
+
+      await storeFirebase('sk_owner_slots', { value: ownerSlots });
+      renderOwnerCalendar();
+      renderCalendar();
+    }
+
+    async function deleteOwnerSlot(dateKey, slotId) {
+      if (confirm('Are you sure you want to remove this slot? Students booked in this slot will be affected.')) {
+        ownerSlots[dateKey] = ownerSlots[dateKey].filter(s => s.id !== slotId);
+        await storeFirebase('sk_owner_slots', { value: ownerSlots });
+        renderOwnerCalendar();
+        renderCalendar();
+      }
+    }
+
+    async function updateOwnerSlotSeats(dateKey, slotId, newSeats) {
+      const slot = ownerSlots[dateKey].find(s => s.id === slotId);
+      if (slot) {
+        slot.seats = Math.max(1, parseInt(newSeats) || 1);
+        await storeFirebase('sk_owner_slots', { value: ownerSlots });
+        renderCalendar();
+      }
+    }
+
+    function renderDashBookings() {
+      const bl = document.getElementById('dashBookingList');
+      if (!bl) return;
+
+      let bHTML = '';
+      if (!bookings.length) {
+        bHTML = `<div class="no-bookings">No bookings yet. They will appear here once students book slots.</div>`;
+      } else {
+        [...bookings].sort((a, b) => b.id - a.id).forEach(b => {
+          const badge = b.status === 'new'
+            ? '<span class="bi-badge new">New</span>'
+            : '<span class="bi-badge confirmed">Confirmed</span>';
+          bHTML += `<div class="booking-item">
+        <div class="bi-date">${b.day}<span>${b.monthName}</span><span>${b.slot}</span></div>
+        <div class="bi-info">
+          <h4>${b.name}</h4>
+          <p>${b.email}${b.phone ? ' · ' + b.phone : ''}</p>
+          <p style="color:var(--saf);font-size:.74rem;margin-top:.15rem;font-weight:600">${b.course}</p>
+          ${b.note ? `<p style="font-style:italic;font-size:.73rem;color:var(--mut);margin-top:.15rem">"${b.note}"</p>` : ''}
+          <p style="font-size:.67rem;color:#bbb;margin-top:.2rem">Requested ${b.bookedOn}</p>
+        </div>
+        ${badge}
+      </div>`;
+        });
+      }
+      bl.innerHTML = bHTML;
+    }
+
+    window.tryLogin = function () {
+      const v = document.getElementById('dashPass').value;
+      if (v === PASS) { loggedIn = true; renderDash() }
+      else { document.getElementById('loginErr').style.display = 'block' }
+    }
+    window.markAllConfirmed = async function () {
+      bookings = bookings.map(b => ({ ...b, status: 'confirmed' }));
+      await storeFirebase('sk_bookings', { value: bookings });
+      renderDash();
+    }
+    window.clearAll = async function () {
+      if (confirm('Delete all booking data? This cannot be undone.')) {
+        bookings = [];
+        await storeFirebase('sk_bookings', { value: [] });
+        renderDash(); renderCalendar();
+      }
+    }
+
+    // Initialize application by fetching data from Firebase
+    async function initApp() {
+      try {
+        bookings = await loadFirebase('sk_bookings', []);
+        ownerSlots = await loadFirebase('sk_owner_slots', {});
+      } catch (e) {
+        console.warn("Firebase not configured properly yet. Using local array until config is added.");
+        bookings = [];
+        ownerSlots = {};
+      }
+
+      renderCalendar();
+    }
+
+    // Run init
+    initApp();
+
+  </script>
+</body>
+
+</html>
