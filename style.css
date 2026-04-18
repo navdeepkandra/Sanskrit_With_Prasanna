@@ -1700,9 +1700,8 @@ footer {
 
     .video-section,
     .tutor-card,
-    .contact-inner,
-    .dash-stats {
-        grid-template-columns: 1fr 1fr
+    .contact-inner {
+        grid-template-columns: 1fr
     }
 
     .vid-content {
@@ -1716,6 +1715,12 @@ footer {
 
     .dash-stats {
         grid-template-columns: 1fr 1fr
+    }
+
+    .hero {
+        min-height: auto;
+        padding-top: 120px;
+        padding-bottom: 60px;
     }
 }
 
